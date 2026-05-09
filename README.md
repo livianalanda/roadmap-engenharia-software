@@ -6,7 +6,7 @@ Guia visual e estratégico de Engenharia de Software moderna, criado para organi
 
 ## 🌐 Live Demo
 
-👉 [Acessar projeto](COLE_AQUI_SEU_LINK_DO_NETLIFY)
+👉 [Acessar projeto](https://roadmap-engenharia-software.netlify.app/)
 
 ---
 
