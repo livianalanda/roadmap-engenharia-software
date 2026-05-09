@@ -1,0 +1,2575 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap · Engenharia de Software</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Literata:ital,opsz,wght@0,7..72,300;0,7..72,400;1,7..72,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050810;
+    --surface: #0c1120;
+    --surface2: #111827;
+    --border: #1e2d45;
+    --accent1: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #f59e0b;
+    --accent4: #10b981;
+    --accent5: #f43f5e;
+    --accent6: #818cf8;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --muted2: #94a3b8;
+    --glow1: rgba(0,212,255,0.15);
+    --glow2: rgba(124,58,237,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Literata', Georgia, serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* SIDEBAR NAV */
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 260px;
+    background: rgba(5,8,16,0.97);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    padding: 28px 0 40px;
+    backdrop-filter: blur(12px);
+  }
+
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+  .sidebar-logo {
+    padding: 0 24px 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .sidebar-logo .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent1);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .sidebar-logo h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.3;
+  }
+
+  .nav-section {
+    padding: 4px 0;
+  }
+
+  .nav-section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 12px 24px 4px;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 24px;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted2);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 2px solid transparent;
+  }
+
+  .nav-link:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.04);
+    border-left-color: var(--accent1);
+  }
+
+  .nav-link .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    margin-left: 260px;
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    padding: 100px 80px 80px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 50%, rgba(124,58,237,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 20%, rgba(0,212,255,0.08) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent1);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 30px; height: 1px;
+    background: var(--accent1);
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(42px, 5vw, 72px);
+    font-weight: 800;
+    line-height: 1.05;
+    color: #fff;
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--muted2);
+    max-width: 560px;
+    position: relative;
+    margin-bottom: 40px;
+    font-style: italic;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    position: relative;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent1);
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* SECTIONS */
+  .section {
+    padding: 60px 80px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    padding-top: 8px;
+    min-width: 36px;
+  }
+
+  .section-title-block {}
+
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(26px, 3vw, 38px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+  }
+
+  .section-desc {
+    color: var(--muted2);
+    max-width: 700px;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  /* CARDS GRID */
+  .cards-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .cards-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .cards-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .cards-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 12px;
+  }
+
+  .card:hover::before { opacity: 1; }
+  .card:hover { border-color: rgba(255,255,255,0.1); transform: translateY(-2px); }
+
+  .card.accent-cyan::before { background: var(--glow1); }
+  .card.accent-purple::before { background: var(--glow2); }
+  .card.accent-amber::before { background: rgba(245,158,11,0.08); }
+  .card.accent-green::before { background: rgba(16,185,129,0.08); }
+  .card.accent-rose::before { background: rgba(244,63,94,0.08); }
+  .card.accent-indigo::before { background: rgba(129,140,248,0.08); }
+
+  .card-icon {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .card-text {
+    font-size: 13px;
+    color: var(--muted2);
+    line-height: 1.6;
+  }
+
+  .card-tag {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  /* ROLE TABLE */
+  .role-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .role-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .role-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(30,45,69,0.5);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .role-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .role-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 99px;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-cyan { background: rgba(0,212,255,0.12); color: var(--accent1); border: 1px solid rgba(0,212,255,0.2); }
+  .badge-purple { background: rgba(124,58,237,0.12); color: #a78bfa; border: 1px solid rgba(124,58,237,0.2); }
+  .badge-amber { background: rgba(245,158,11,0.12); color: var(--accent3); border: 1px solid rgba(245,158,11,0.2); }
+  .badge-green { background: rgba(16,185,129,0.12); color: var(--accent4); border: 1px solid rgba(16,185,129,0.2); }
+  .badge-rose { background: rgba(244,63,94,0.12); color: var(--accent5); border: 1px solid rgba(244,63,94,0.2); }
+  .badge-indigo { background: rgba(129,140,248,0.12); color: var(--accent6); border: 1px solid rgba(129,140,248,0.2); }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent1), var(--accent2), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 32px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent1);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 8px var(--accent1);
+  }
+
+  .timeline-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent1);
+    margin-bottom: 6px;
+  }
+
+  .timeline-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .timeline-text {
+    font-size: 13px;
+    color: var(--muted2);
+    line-height: 1.7;
+  }
+
+  /* LANGUAGE CARDS */
+  .lang-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.25s;
+  }
+
+  .lang-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+
+  .lang-header {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .lang-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Syne', sans-serif;
+    flex-shrink: 0;
+  }
+
+  .lang-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  .lang-tagline {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .lang-body { padding: 16px 20px 20px; }
+
+  .lang-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(30,45,69,0.4);
+    font-size: 12px;
+  }
+
+  .lang-row:last-child { border-bottom: none; }
+
+  .lang-key { color: var(--muted); font-family: 'DM Mono', monospace; font-size: 10px; }
+  .lang-val { color: var(--text); font-weight: 500; text-align: right; font-size: 11px; }
+
+  .meter {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+  }
+
+  .meter-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+  }
+
+  .meter-dot.filled { background: var(--accent1); }
+  .meter-dot.empty { background: var(--border); }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted2);
+    line-height: 1.5;
+  }
+
+  .checklist li::before {
+    content: '→';
+    color: var(--accent1);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .checklist li strong { color: #fff; }
+
+  /* PRIORITY BLOCK */
+  .priority-block {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .priority-col {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+  }
+
+  .priority-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .priority-label::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .priority-col.must .priority-label { color: var(--accent4); }
+  .priority-col.must .priority-label::before { background: var(--accent4); }
+  .priority-col.should .priority-label { color: var(--accent3); }
+  .priority-col.should .priority-label::before { background: var(--accent3); }
+  .priority-col.nice .priority-label { color: var(--muted); }
+  .priority-col.nice .priority-label::before { background: var(--muted); }
+
+  .priority-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .priority-item {
+    font-size: 12px;
+    color: var(--muted2);
+    padding: 5px 8px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 5px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* SALARY TABLE */
+  .salary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .salary-cell {
+    background: var(--surface);
+    padding: 18px;
+    text-align: center;
+  }
+
+  .salary-cell.header {
+    background: var(--surface2);
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 12px;
+  }
+
+  .salary-level {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .salary-range {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* PLAN TABLE */
+  .plan-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .plan-table th {
+    background: var(--surface2);
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 12px 16px;
+    text-align: left;
+  }
+
+  .plan-table td {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--muted2);
+    vertical-align: top;
+  }
+
+  .plan-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .plan-week {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  /* MIND MAP VISUAL */
+  .mind-map {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mind-map-center {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    padding: 16px 32px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .mind-map-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .mind-node {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 8px 14px;
+    border-radius: 7px;
+    border: 1px solid;
+    white-space: nowrap;
+    cursor: default;
+    transition: all 0.2s;
+  }
+
+  .mind-node:hover { transform: scale(1.05); }
+  .mind-node.n1 { border-color: rgba(0,212,255,0.3); color: var(--accent1); background: rgba(0,212,255,0.08); }
+  .mind-node.n2 { border-color: rgba(124,58,237,0.3); color: #a78bfa; background: rgba(124,58,237,0.08); }
+  .mind-node.n3 { border-color: rgba(245,158,11,0.3); color: var(--accent3); background: rgba(245,158,11,0.08); }
+  .mind-node.n4 { border-color: rgba(16,185,129,0.3); color: var(--accent4); background: rgba(16,185,129,0.08); }
+  .mind-node.n5 { border-color: rgba(244,63,94,0.3); color: var(--accent5); background: rgba(244,63,94,0.08); }
+  .mind-node.n6 { border-color: rgba(129,140,248,0.3); color: var(--accent6); background: rgba(129,140,248,0.08); }
+
+  /* DEEP INFO BLOCKS */
+  .info-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .info-block-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .info-block-title .num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 14px;
+  }
+
+  .info-item { }
+  .info-item-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .info-item-val {
+    font-size: 12px;
+    color: var(--muted2);
+    line-height: 1.5;
+  }
+
+  /* LEVEL TAGS */
+  .level { display: inline-block; font-family: 'DM Mono', monospace; font-size: 9px; padding: 2px 8px; border-radius: 4px; letter-spacing: 1px; text-transform: uppercase; }
+  .level-init { background: rgba(16,185,129,0.1); color: var(--accent4); border: 1px solid rgba(16,185,129,0.2); }
+  .level-mid { background: rgba(245,158,11,0.1); color: var(--accent3); border: 1px solid rgba(245,158,11,0.2); }
+  .level-adv { background: rgba(244,63,94,0.1); color: var(--accent5); border: 1px solid rgba(244,63,94,0.2); }
+  .level-elite { background: rgba(124,58,237,0.1); color: #a78bfa; border: 1px solid rgba(124,58,237,0.2); }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 32px 0;
+  }
+
+  /* QUOTE BLOCK */
+  .quote-block {
+    border-left: 3px solid var(--accent2);
+    padding: 16px 20px;
+    background: rgba(124,58,237,0.06);
+    border-radius: 0 8px 8px 0;
+    margin: 20px 0;
+    font-style: italic;
+    color: var(--muted2);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: #080d1a;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: #7dd3fc;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 12px 0;
+  }
+
+  .code-block .c { color: var(--muted); }
+  .code-block .k { color: #c084fc; }
+  .code-block .s { color: #86efac; }
+  .code-block .n { color: #7dd3fc; }
+
+  /* ANIMATED GRADIENT TEXT */
+  .grad-text {
+    background: linear-gradient(135deg, var(--accent1), var(--accent2), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* TABS (simple) */
+  .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .tab-btn {
+    padding: 10px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .tab-btn.active { color: var(--accent1); border-bottom-color: var(--accent1); }
+  .tab-btn:hover { color: var(--text); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+    .section, .hero { padding: 40px 24px; }
+    .cards-grid.cols-3, .cards-grid.cols-4 { grid-template-columns: 1fr 1fr; }
+    .cards-grid.cols-2 { grid-template-columns: 1fr; }
+    .salary-grid { grid-template-columns: repeat(2,1fr); }
+    .info-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    .cards-grid.cols-3, .cards-grid.cols-4, .cards-grid.cols-2 { grid-template-columns: 1fr; }
+  }
+
+  /* SCROLL ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <span class="badge">🗺 Master Roadmap</span>
+    <h2>Engenharia de<br>Software 2025</h2>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Visão Geral</div>
+    <a href="#s1" class="nav-link"><span class="dot" style="background:#00d4ff"></span>Área & Carreiras</a>
+    <a href="#s2" class="nav-link"><span class="dot" style="background:#7c3aed"></span>Fundamentos</a>
+    <a href="#s3" class="nav-link"><span class="dot" style="background:#f59e0b"></span>Roadmap Técnico</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Tecnologia</div>
+    <a href="#s4" class="nav-link"><span class="dot" style="background:#10b981"></span>Linguagens</a>
+    <a href="#s5" class="nav-link"><span class="dot" style="background:#f43f5e"></span>Frontend</a>
+    <a href="#s6" class="nav-link"><span class="dot" style="background:#818cf8"></span>Backend</a>
+    <a href="#s7" class="nav-link"><span class="dot" style="background:#00d4ff"></span>Cloud & DevOps</a>
+    <a href="#s11" class="nav-link"><span class="dot" style="background:#f59e0b"></span>Mobile</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Engenharia Real</div>
+    <a href="#s8" class="nav-link"><span class="dot" style="background:#7c3aed"></span>Boas Práticas</a>
+    <a href="#s9" class="nav-link"><span class="dot" style="background:#10b981"></span>IA & Futuro</a>
+    <a href="#s10" class="nav-link"><span class="dot" style="background:#f43f5e"></span>Segurança</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Carreira</div>
+    <a href="#s12" class="nav-link"><span class="dot" style="background:#818cf8"></span>Mapa de Carreira</a>
+    <a href="#s13" class="nav-link"><span class="dot" style="background:#00d4ff"></span>Portfólio</a>
+    <a href="#s14" class="nav-link"><span class="dot" style="background:#7c3aed"></span>Big Techs</a>
+    <a href="#s15" class="nav-link"><span class="dot" style="background:#f59e0b"></span>Salários</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Planos</div>
+    <a href="#s16" class="nav-link"><span class="dot" style="background:#10b981"></span>Plano de Estudos</a>
+    <a href="#s17" class="nav-link"><span class="dot" style="background:#f43f5e"></span>Recursos</a>
+    <a href="#s18" class="nav-link"><span class="dot" style="background:#818cf8"></span>Mapa Visual</a>
+    <a href="#s19" class="nav-link"><span class="dot" style="background:#00d4ff"></span>Mentalidade Elite</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-tag">Roadmap Mestre · 2025–2028</div>
+    <h1>Engenharia de<br>Software <em>Moderna</em></h1>
+    <p class="hero-sub">Do absoluto zero ao nível global. Um mapa profundo, estratégico e atualizado para construir uma carreira de elite em tecnologia.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">19</span>
+        <span class="stat-label">Módulos</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">200+</span>
+        <span class="stat-label">Tópicos</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Anos de Plano</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">∞</span>
+        <span class="stat-label">Potencial</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 1 · VISÃO GERAL -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s1">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent1)">Visão Geral</div>
+        <h2>O que é Engenharia de Software</h2>
+        <p class="section-desc">A disciplina que vai além do código — é sobre construir sistemas confiáveis, escaláveis e sustentáveis que geram impacto real no mundo.</p>
+      </div>
+    </div>
+
+    <div class="quote-block">
+      "Engenharia de Software não é apenas escrever código que funciona — é criar sistemas que sobrevivem ao tempo, escalam com o crescimento e são mantidos por times humanos."
+    </div>
+
+    <div class="cards-grid cols-3" style="margin-bottom:32px">
+      <div class="card accent-cyan">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">O que é?</div>
+        <div class="card-text">Disciplina que aplica princípios científicos e matemáticos para projetar, desenvolver, testar e manter software de forma sistemática, eficiente e confiável.</div>
+      </div>
+      <div class="card accent-purple">
+        <div class="card-icon">⚙️</div>
+        <div class="card-title">Como funciona?</div>
+        <div class="card-text">Combina programação com arquitetura de sistemas, gestão de processos, análise de requisitos, testes rigorosos e entrega contínua.</div>
+      </div>
+      <div class="card accent-amber">
+        <div class="card-icon">🌍</div>
+        <div class="card-title">Por que importa?</div>
+        <div class="card-text">Todo serviço digital que você usa — de bancos a redes sociais — é sustentado por engenheiros de software. É a profissão que move a economia digital.</div>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:20px">Diferença entre os Roles</h3>
+
+    <table class="role-table">
+      <thead>
+        <tr>
+          <th>Cargo</th>
+          <th>Foco Principal</th>
+          <th>Habilidades-chave</th>
+          <th>Mercado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="role-name">Software Engineer</span></td>
+          <td>Sistemas completos, arquitetura e código de qualidade</td>
+          <td>Algoritmos, design patterns, sistemas distribuídos</td>
+          <td><span class="badge badge-cyan">Alta demanda</span></td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Software Developer</span></td>
+          <td>Implementação de funcionalidades e manutenção de código</td>
+          <td>Linguagens, frameworks, debugging</td>
+          <td><span class="badge badge-green">Abundante</span></td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Full Stack Developer</span></td>
+          <td>Front + Back end em todo o ciclo do produto</td>
+          <td>JS/TS, React, Node, bancos de dados, APIs</td>
+          <td><span class="badge badge-cyan">Alta demanda</span></td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Backend Engineer</span></td>
+          <td>Servidores, APIs, bancos de dados, performance</td>
+          <td>Go, Python, Java, SQL/NoSQL, cloud</td>
+          <td><span class="badge badge-cyan">Alta demanda</span></td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Frontend Engineer</span></td>
+          <td>Interfaces, UX técnica, performance web</td>
+          <td>React, TypeScript, CSS, acessibilidade</td>
+          <td><span class="badge badge-amber">Competitivo</span></td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Mobile Engineer</span></td>
+          <td>Apps iOS e Android nativos ou cross-platform</td>
+          <td>Swift, Kotlin, React Native, Flutter</td>
+          <td><span class="badge badge-amber">Estável</span></td>
+        </tr>
+        <tr>
+          <td><span class="role-name">DevOps Engineer</span></td>
+          <td>Infraestrutura, automação, CI/CD, confiabilidade</td>
+          <td>Docker, K8s, Terraform, AWS, Linux</td>
+          <td><span class="badge badge-cyan">Alta demanda</span></td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Platform Engineer</span></td>
+          <td>Infraestrutura interna e Developer Experience</td>
+          <td>Kubernetes, service mesh, plataformas internas</td>
+          <td><span class="badge badge-purple">Crescendo</span></td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Cloud Engineer</span></td>
+          <td>Arquitetura e operações em nuvem</td>
+          <td>AWS/GCP/Azure, IaC, segurança cloud</td>
+          <td><span class="badge badge-cyan">Alta demanda</span></td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Security Engineer</span></td>
+          <td>Segurança de aplicações, infraestrutura e dados</td>
+          <td>OWASP, pentest, criptografia, DevSecOps</td>
+          <td><span class="badge badge-purple">Crescendo</span></td>
+        </tr>
+        <tr>
+          <td><span class="role-name">AI Engineer</span></td>
+          <td>Integração e deploy de modelos de IA em produção</td>
+          <td>LLMs, APIs de IA, RAG, agentes, Python</td>
+          <td><span class="badge badge-rose">🔥 Explosivo</span></td>
+        </tr>
+        <tr>
+          <td><span class="role-name">ML Engineer</span></td>
+          <td>Pipelines de dados, treinamento e deploy de modelos</td>
+          <td>Python, PyTorch, MLOps, dados, matemática</td>
+          <td><span class="badge badge-rose">🔥 Explosivo</span></td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Systems Engineer</span></td>
+          <td>Sistemas de baixo nível, performance extrema</td>
+          <td>C/C++, Rust, kernels, redes, hardware</td>
+          <td><span class="badge badge-indigo">Especializado</span></td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Solutions Architect</span></td>
+          <td>Design de soluções técnicas de alto nível</td>
+          <td>Cloud, comunicação, visão sistêmica, experiência</td>
+          <td><span class="badge badge-amber">Senior+</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+
+    <h3 style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:16px">Como a IA está transformando tudo</h3>
+    <div class="cards-grid cols-2">
+      <div class="card accent-cyan">
+        <div class="card-title">🤖 O que a IA já faz hoje</div>
+        <ul class="checklist" style="margin-top:10px">
+          <li>Gera código boilerplate e repetitivo com precisão crescente</li>
+          <li>Sugere correções de bugs em tempo real (GitHub Copilot, Cursor)</li>
+          <li>Escreve testes unitários e documentação automaticamente</li>
+          <li>Auxilia em code review identificando padrões problemáticos</li>
+          <li>Cria componentes de UI a partir de descrições em linguagem natural</li>
+        </ul>
+      </div>
+      <div class="card accent-purple">
+        <div class="card-title">🧬 O que o humano continuará fazendo</div>
+        <ul class="checklist" style="margin-top:10px">
+          <li><strong>Arquitetura sistêmica</strong> — decisões de design de alto nível</li>
+          <li><strong>Engenharia de contexto</strong> — saber o que pedir e como guiar a IA</li>
+          <li><strong>Resolução de problemas complexos e ambíguos</strong></li>
+          <li><strong>Comunicação e alinhamento com stakeholders</strong></li>
+          <li><strong>Julgamento técnico</strong> sobre trade-offs e prioridades</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 2 · FUNDAMENTOS -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s2">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent2)">Fundamentos</div>
+        <h2>A Base que Não Muda</h2>
+        <p class="section-desc">Frameworks surgem e somem. Os fundamentos permanecem por décadas. Quem os domina profundamente tem vantagem permanente.</p>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-2">
+
+      <div class="info-block">
+        <div class="info-block-title">🧩 Lógica de Programação <span class="level level-init">iniciante</span></div>
+        <div class="card-text" style="margin-bottom:12px">O substrato mental de toda programação. É a capacidade de decompor um problema em etapas executáveis por uma máquina: sequência, seleção (if/else) e repetição (loops). Não é sobre sintaxe — é sobre raciocínio.</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-item-label">Por que importa</div><div class="info-item-val">Sem isso, você memoriza código. Com isso, você resolve qualquer problema.</div></div>
+          <div class="info-item"><div class="info-item-label">Como estudar</div><div class="info-item-val">Visualgo, CS50, Scratch (conceitos), depois Python ou JS para praticar.</div></div>
+          <div class="info-item"><div class="info-item-label">Onde é usado</div><div class="info-item-val">Em absolutamente tudo — backend, frontend, IA, scripts, automação.</div></div>
+          <div class="info-item"><div class="info-item-label">Prioridade</div><div class="info-item-val" style="color:var(--accent4)">⭐ CRÍTICO · Primeiro passo obrigatório</div></div>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-title">🔬 Algoritmos & Estruturas de Dados <span class="level level-mid">intermediário</span></div>
+        <div class="card-text" style="margin-bottom:12px">Arrays, listas ligadas, pilhas, filas, árvores, grafos, hashmaps. Algoritmos de busca (BFS/DFS), ordenação, busca binária, algoritmos gulosos, programação dinâmica. A linguagem universal de entrevistas de Big Techs.</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-item-label">Por que importa</div><div class="info-item-val">Define eficiência. Um algoritmo errado mata sistemas em escala.</div></div>
+          <div class="info-item"><div class="info-item-label">Como estudar</div><div class="info-item-val">NeetCode 150, LeetCode (começar fácil), livro CLRS, Visualgo.</div></div>
+          <div class="info-item"><div class="info-item-label">Big Techs</div><div class="info-item-val">Google, Meta, Amazon exigem isso em entrevistas. Indispensável.</div></div>
+          <div class="info-item"><div class="info-item-label">Dificuldade</div><div class="info-item-val" style="color:var(--accent3)">⚠ Alta — requer prática constante por meses</div></div>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-title">🖥 Arquitetura de Computadores <span class="level level-init">iniciante</span></div>
+        <div class="card-text" style="margin-bottom:12px">CPU, memória RAM, armazenamento, I/O. Como o processador executa instruções, o que é cache L1/L2/L3, como a memória é alocada. Fundamento para entender performance real de sistemas.</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-item-label">Por que importa</div><div class="info-item-val">Sem isso, você não entende por que seu código é lento ou rápido.</div></div>
+          <div class="info-item"><div class="info-item-label">Como estudar</div><div class="info-item-val">CS:APP (Computer Systems: A Programmer's Perspective), Nand to Tetris.</div></div>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-title">🐧 Sistemas Operacionais <span class="level level-mid">intermediário</span></div>
+        <div class="card-text" style="margin-bottom:12px">Processos, threads, escalonamento, memória virtual, sistema de arquivos, chamadas de sistema. Linux como ambiente de trabalho real. Shell scripting para automação. Fundação para DevOps e sistemas distribuídos.</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-item-label">Como estudar</div><div class="info-item-val">OSTEP (Operating Systems: Three Easy Pieces — gratuito!), praticar Linux.</div></div>
+          <div class="info-item"><div class="info-item-label">Prioridade</div><div class="info-item-val" style="color:var(--accent3)">Alto — obrigatório para backend e infra</div></div>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-title">🌐 Redes & Protocolos <span class="level level-mid">intermediário</span></div>
+        <div class="card-text" style="margin-bottom:12px">TCP/IP, UDP, HTTP/1.1/2/3, HTTPS, DNS, TLS, WebSockets, REST. Como dados viajam pela internet. Essencial para construir APIs, entender latência e diagnosticar problemas em produção.</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-item-label">Recursos</div><div class="info-item-val">Computer Networks (Tanenbaum), livro "High Performance Browser Networking".</div></div>
+          <div class="info-item"><div class="info-item-label">Mercado</div><div class="info-item-val">Crítico para backend, DevOps, cloud, segurança. Usado diariamente.</div></div>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-title">🗄 Banco de Dados <span class="level level-init">iniciante</span></div>
+        <div class="card-text" style="margin-bottom:12px">SQL (PostgreSQL como padrão-ouro), modelagem relacional, índices, transações ACID, normalização. NoSQL: MongoDB (documentos), Redis (cache), Cassandra (alta disponibilidade). Escolha certa do banco define arquitetura.</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-item-label">Prioridade</div><div class="info-item-val" style="color:var(--accent4)">⭐ CRÍTICO · Todo desenvolvedor precisa dominar SQL</div></div>
+          <div class="info-item"><div class="info-item-label">Como estudar</div><div class="info-item-val">Mode Analytics SQL Tutorial, PostgreSQL docs, Use the Index, Luke!</div></div>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-title">🎭 Paradigmas de Programação <span class="level level-mid">intermediário</span></div>
+        <div class="card-text" style="margin-bottom:12px"><strong>OOP:</strong> encapsulamento, herança, polimorfismo, abstração. <strong>Funcional:</strong> funções puras, imutabilidade, composição, map/filter/reduce. <strong>Procedural:</strong> sequências e procedimentos. Saber quando usar cada um é sabedoria de engenheiro sênior.</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-item-label">OOP onde?</div><div class="info-item-val">Java, C#, Python — sistemas enterprise e backends tradicionais.</div></div>
+          <div class="info-item"><div class="info-item-label">Funcional onde?</div><div class="info-item-val">Haskell, Elm, Elixir, Clojure — e cada vez mais em JS/TS moderno.</div></div>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-title">⚡ Concorrência & Paralelismo <span class="level level-adv">avançado</span></div>
+        <div class="card-text" style="margin-bottom:12px">Threads, processos, goroutines, async/await, event loops, race conditions, deadlocks, mutexes, semáforos. Sistemas modernos são inerentemente concorrentes. Sem este conhecimento, você não consegue construir sistemas de alta performance.</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-item-label">Dificuldade</div><div class="info-item-val" style="color:var(--accent5)">⚠ Muito alta — bugs difíceis de reproduzir e debugar</div></div>
+          <div class="info-item"><div class="info-item-label">Essencial para</div><div class="info-item-val">Backend de alta performance, sistemas distribuídos, Go, Rust, Java.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 3 · ROADMAP TÉCNICO -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s3">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent3)">Roadmap Técnico</div>
+        <h2>Ordem Correta de Aprendizado</h2>
+        <p class="section-desc">A ordem importa mais que a velocidade. Pular etapas cria lacunas que custam anos para corrigir.</p>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-label">Fase 1 · Meses 1-3</div>
+        <div class="timeline-title">Alicerce Mental</div>
+        <div class="timeline-text">Lógica de programação → Escolha uma linguagem (Python ou JS) → Variáveis, funções, loops, condicionais → Primeiro projeto simples (calculadora, jogo de adivinhação). <strong>Meta: pensar em código.</strong></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">Fase 2 · Meses 3-6</div>
+        <div class="timeline-title">Fundamentos Sólidos</div>
+        <div class="timeline-text">Estruturas de dados básicas → OOP → Git e terminal Linux → SQL básico → HTTP e como a web funciona → Primeiro projeto web simples. <strong>Meta: construir algo funcional do zero.</strong></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">Fase 3 · Meses 6-12</div>
+        <div class="timeline-title">Especialização Inicial</div>
+        <div class="timeline-text">Escolher trilha (front, back ou full stack) → Framework principal (React ou Node/Python/Go) → APIs REST → Deploy básico (Vercel/Railway/Render) → Portfólio com 3 projetos reais. <strong>Meta: primeiro emprego ou freelance.</strong></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">Fase 4 · Ano 1-2</div>
+        <div class="timeline-title">Engenharia de Verdade</div>
+        <div class="timeline-text">Clean Code e SOLID → Testes (unitários, integração) → Docker básico → Cloud (AWS ou GCP) → Algoritmos e estruturas avançadas → System Design básico. <strong>Meta: nível júnior sólido → pleno.</strong></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">Fase 5 · Ano 2-3</div>
+        <div class="timeline-title">Arquitetura & Escala</div>
+        <div class="timeline-text">Microsserviços → Mensageria (Kafka/RabbitMQ) → Kubernetes → DDD → System Design avançado → Contribuição open source → Liderança técnica. <strong>Meta: nível pleno → sênior.</strong></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-label">Fase 6 · Ano 3+</div>
+        <div class="timeline-title">Nível Global</div>
+        <div class="timeline-text">Staff Engineer skills → Entrevistas Big Tech → Inglês técnico fluente → Rede internacional → AI Engineering → Contribuições significativas → Posição de impacto. <strong>Meta: mercado global.</strong></div>
+      </div>
+    </div>
+
+    <div class="priority-block">
+      <div class="priority-col must">
+        <div class="priority-label">Obrigatório</div>
+        <div class="priority-items">
+          <div class="priority-item">Git & GitHub</div>
+          <div class="priority-item">SQL & bancos relacionais</div>
+          <div class="priority-item">Uma linguagem em profundidade</div>
+          <div class="priority-item">APIs REST</div>
+          <div class="priority-item">Linux básico</div>
+          <div class="priority-item">Algoritmos fundamentais</div>
+          <div class="priority-item">HTTP/HTTPS</div>
+          <div class="priority-item">Testes automatizados</div>
+        </div>
+      </div>
+      <div class="priority-col should">
+        <div class="priority-label">Diferencial forte</div>
+        <div class="priority-items">
+          <div class="priority-item">Docker + Kubernetes</div>
+          <div class="priority-item">TypeScript</div>
+          <div class="priority-item">Cloud (AWS/GCP)</div>
+          <div class="priority-item">GraphQL</div>
+          <div class="priority-item">Redis & caching</div>
+          <div class="priority-item">CI/CD pipelines</div>
+          <div class="priority-item">System Design</div>
+          <div class="priority-item">DDD & Clean Arch</div>
+        </div>
+      </div>
+      <div class="priority-col nice">
+        <div class="priority-label">Avançado / Específico</div>
+        <div class="priority-items">
+          <div class="priority-item">Rust / Go avançado</div>
+          <div class="priority-item">ML & IA aplicada</div>
+          <div class="priority-item">Kafka & event streaming</div>
+          <div class="priority-item">Service mesh (Istio)</div>
+          <div class="priority-item">Compiladores</div>
+          <div class="priority-item">WebAssembly</div>
+          <div class="priority-item">eBPF</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 4 · LINGUAGENS -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s4">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent4)">Linguagens</div>
+        <h2>Escolha sua Arma</h2>
+        <p class="section-desc">Aprenda uma bem antes de dispersar. Mas entenda o ecossistema completo para tomar decisões arquiteturais corretas.</p>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-2" style="gap:14px">
+
+      <div class="lang-card">
+        <div class="lang-header">
+          <div class="lang-icon" style="background:rgba(240,219,79,0.15);color:#f0db4f">JS</div>
+          <div>
+            <div class="lang-name">JavaScript</div>
+            <div class="lang-tagline">A língua da web</div>
+          </div>
+          <span class="badge badge-cyan" style="margin-left:auto">🔥 TOP 1</span>
+        </div>
+        <div class="lang-body">
+          <div class="lang-row"><span class="lang-key">Domina em</span><span class="lang-val">Frontend, Node.js backend, mobile (RN), scripts</span></div>
+          <div class="lang-row"><span class="lang-key">Salário BR</span><span class="lang-val" style="color:var(--accent4)">R$ 6k–25k+/mês</span></div>
+          <div class="lang-row"><span class="lang-key">Salário EUA</span><span class="lang-val" style="color:var(--accent4)">$80k–$180k+/ano</span></div>
+          <div class="lang-row"><span class="lang-key">Complexidade</span><div class="meter"><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot empty"></div><div class="meter-dot empty"></div></div></div>
+          <div class="lang-row"><span class="lang-key">Performance</span><div class="meter"><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot empty"></div><div class="meter-dot empty"></div></div></div>
+          <div class="lang-row"><span class="lang-key">Tendência 2025</span><span class="lang-val" style="color:var(--accent1)">↑ Crescendo</span></div>
+          <div class="lang-row"><span class="lang-key">Big Techs usam?</span><span class="lang-val">✓ Todos os times frontend</span></div>
+          <div class="lang-row"><span class="lang-key">⚠ Desvantagem</span><span class="lang-val">Tipagem fraca, "this" confuso, ecossistema fragmentado</span></div>
+        </div>
+      </div>
+
+      <div class="lang-card">
+        <div class="lang-header">
+          <div class="lang-icon" style="background:rgba(49,120,198,0.15);color:#3178c6">TS</div>
+          <div>
+            <div class="lang-name">TypeScript</div>
+            <div class="lang-tagline">JS com superpoderes</div>
+          </div>
+          <span class="badge badge-rose">Obrigatório 2025</span>
+        </div>
+        <div class="lang-body">
+          <div class="lang-row"><span class="lang-key">Domina em</span><span class="lang-val">Frontend moderno, fullstack, APIs Node.js</span></div>
+          <div class="lang-row"><span class="lang-key">Salário BR</span><span class="lang-val" style="color:var(--accent4)">R$ 8k–30k+/mês</span></div>
+          <div class="lang-row"><span class="lang-key">Salário EUA</span><span class="lang-val" style="color:var(--accent4)">$90k–$200k+/ano</span></div>
+          <div class="lang-row"><span class="lang-key">Complexidade</span><div class="meter"><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot empty"></div></div></div>
+          <div class="lang-row"><span class="lang-key">Tendência 2025</span><span class="lang-val" style="color:var(--accent1)">↑↑ Padrão de mercado</span></div>
+          <div class="lang-row"><span class="lang-key">Melhor para</span><span class="lang-val">Frontend, APIs Node, projetos em equipe grande</span></div>
+          <div class="lang-row"><span class="lang-key">⚠ Desvantagem</span><span class="lang-val">Curva de aprendizado em tipos complexos</span></div>
+        </div>
+      </div>
+
+      <div class="lang-card">
+        <div class="lang-header">
+          <div class="lang-icon" style="background:rgba(55,118,171,0.15);color:#3776ab">Py</div>
+          <div>
+            <div class="lang-name">Python</div>
+            <div class="lang-tagline">Simplicidade + IA</div>
+          </div>
+          <span class="badge badge-rose">🔥 IA #1</span>
+        </div>
+        <div class="lang-body">
+          <div class="lang-row"><span class="lang-key">Domina em</span><span class="lang-val">IA/ML, data science, automação, scripts, APIs</span></div>
+          <div class="lang-row"><span class="lang-key">Salário BR</span><span class="lang-val" style="color:var(--accent4)">R$ 7k–28k/mês</span></div>
+          <div class="lang-row"><span class="lang-key">Salário EUA</span><span class="lang-val" style="color:var(--accent4)">$85k–$190k/ano</span></div>
+          <div class="lang-row"><span class="lang-key">Complexidade</span><div class="meter"><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot empty"></div><div class="meter-dot empty"></div><div class="meter-dot empty"></div></div></div>
+          <div class="lang-row"><span class="lang-key">Performance</span><div class="meter"><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot empty"></div><div class="meter-dot empty"></div><div class="meter-dot empty"></div></div></div>
+          <div class="lang-row"><span class="lang-key">Tendência 2025</span><span class="lang-val" style="color:var(--accent1)">↑↑↑ Explodindo com IA</span></div>
+          <div class="lang-row"><span class="lang-key">⚠ Desvantagem</span><span class="lang-val">Lenta para sistemas, GIL limita concorrência</span></div>
+        </div>
+      </div>
+
+      <div class="lang-card">
+        <div class="lang-header">
+          <div class="lang-icon" style="background:rgba(0,173,181,0.15);color:#00adb5">Go</div>
+          <div>
+            <div class="lang-name">Go (Golang)</div>
+            <div class="lang-tagline">Simplicidade escala</div>
+          </div>
+          <span class="badge badge-cyan">Cloud Native</span>
+        </div>
+        <div class="lang-body">
+          <div class="lang-row"><span class="lang-key">Domina em</span><span class="lang-val">Backend cloud, microsserviços, CLIs, infra (K8s, Docker são em Go)</span></div>
+          <div class="lang-row"><span class="lang-key">Salário EUA</span><span class="lang-val" style="color:var(--accent4)">$100k–$220k/ano</span></div>
+          <div class="lang-row"><span class="lang-key">Complexidade</span><div class="meter"><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot empty"></div><div class="meter-dot empty"></div></div></div>
+          <div class="lang-row"><span class="lang-key">Performance</span><div class="meter"><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot empty"></div></div></div>
+          <div class="lang-row"><span class="lang-key">Tendência 2025</span><span class="lang-val" style="color:var(--accent1)">↑ Sólido e crescendo</span></div>
+          <div class="lang-row"><span class="lang-key">Usado em</span><span class="lang-val">Uber, Dropbox, Google, Cloudflare, Stripe</span></div>
+        </div>
+      </div>
+
+      <div class="lang-card">
+        <div class="lang-header">
+          <div class="lang-icon" style="background:rgba(183,65,14,0.2);color:#f97316">Rs</div>
+          <div>
+            <div class="lang-name">Rust</div>
+            <div class="lang-tagline">Performance + Segurança</div>
+          </div>
+          <span class="badge badge-purple">Futuro</span>
+        </div>
+        <div class="lang-body">
+          <div class="lang-row"><span class="lang-key">Domina em</span><span class="lang-val">Sistemas de baixo nível, WebAssembly, game dev, infra crítica</span></div>
+          <div class="lang-row"><span class="lang-key">Salário EUA</span><span class="lang-val" style="color:var(--accent4)">$110k–$230k/ano</span></div>
+          <div class="lang-row"><span class="lang-key">Complexidade</span><div class="meter"><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot filled"></div></div></div>
+          <div class="lang-row"><span class="lang-key">Performance</span><div class="meter"><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot filled"></div></div></div>
+          <div class="lang-row"><span class="lang-key">Tendência 2025</span><span class="lang-val" style="color:var(--accent1)">↑↑ Adotado pela Linux Kernel, Android, Windows</span></div>
+          <div class="lang-row"><span class="lang-key">⚠ Desvantagem</span><span class="lang-val">Curva de aprendizado extremamente íngreme</span></div>
+        </div>
+      </div>
+
+      <div class="lang-card">
+        <div class="lang-header">
+          <div class="lang-icon" style="background:rgba(237,106,10,0.15);color:#ed6a0a">Jv</div>
+          <div>
+            <div class="lang-name">Java</div>
+            <div class="lang-tagline">Enterprise & Android</div>
+          </div>
+          <span class="badge badge-amber">Sólido</span>
+        </div>
+        <div class="lang-body">
+          <div class="lang-row"><span class="lang-key">Domina em</span><span class="lang-val">Enterprise, Android (legacy), bancos, Spring Boot</span></div>
+          <div class="lang-row"><span class="lang-key">Salário BR</span><span class="lang-val" style="color:var(--accent4)">R$ 7k–25k/mês</span></div>
+          <div class="lang-row"><span class="lang-key">Salário EUA</span><span class="lang-val" style="color:var(--accent4)">$85k–$180k/ano</span></div>
+          <div class="lang-row"><span class="lang-key">Complexidade</span><div class="meter"><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot filled"></div><div class="meter-dot empty"></div><div class="meter-dot empty"></div></div></div>
+          <div class="lang-row"><span class="lang-key">Tendência 2025</span><span class="lang-val" style="color:var(--muted)">→ Estável, mas perdendo terreno para Go/Kotlin</span></div>
+          <div class="lang-row"><span class="lang-key">Boa para</span><span class="lang-val">Bancos, fintechs, grandes corporações</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 5 · FRONTEND -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s5">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent5)">Frontend Engineering</div>
+        <h2>A Arte da Interface</h2>
+        <p class="section-desc">Frontend moderno vai muito além de HTML e CSS — é arquitetura, performance, acessibilidade e experiência do usuário em escala.</p>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-3">
+      <div class="card accent-rose">
+        <div class="card-icon">🏗</div>
+        <div class="card-title">HTML Semântico</div>
+        <div class="card-text">Mais que tags. Estrutura significativa, acessibilidade (WAI-ARIA), SEO on-page, microdados. A base invisível de toda interface web. Subestimado por 90% dos devs.</div>
+        <span class="card-tag" style="background:rgba(244,63,94,0.1);color:var(--accent5)">Base</span>
+      </div>
+      <div class="card accent-cyan">
+        <div class="card-icon">🎨</div>
+        <div class="card-title">CSS Moderno</div>
+        <div class="card-text">Grid, Flexbox, Custom Properties, animações, Container Queries (2024), Cascade Layers. Tailwind vs CSS puro — entenda os trade-offs. CSS-in-JS vs utility-first.</div>
+        <span class="card-tag" style="background:rgba(0,212,255,0.1);color:var(--accent1)">Core</span>
+      </div>
+      <div class="card accent-purple">
+        <div class="card-icon">⚛️</div>
+        <div class="card-title">React 19+</div>
+        <div class="card-text">Server Components, Suspense, hooks avançados (useTransition, useDeferredValue), Concurrent Mode. React Query para server state. Zustand/Jotai para client state. O padrão de mercado em 2025.</div>
+        <span class="card-tag" style="background:rgba(124,58,237,0.1);color:#a78bfa">Obrigatório</span>
+      </div>
+      <div class="card accent-cyan">
+        <div class="card-icon">▲</div>
+        <div class="card-title">Next.js 15+</div>
+        <div class="card-text">App Router, Server Components, SSR, SSG, ISR, Server Actions, Edge Runtime. O framework fullstack mais usado no mercado JS. Vercel como deploy padrão. RSC muda o paradigma.</div>
+        <span class="card-tag" style="background:rgba(0,212,255,0.1);color:var(--accent1)">Padrão de mercado</span>
+      </div>
+      <div class="card accent-green">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Performance Web</div>
+        <div class="card-text">Core Web Vitals (LCP, FID, CLS), lazy loading, code splitting, bundle analysis, cache strategies, CDN, HTTP/2. Performance é feature — impacta conversão e SEO diretamente.</div>
+        <span class="card-tag" style="background:rgba(16,185,129,0.1);color:var(--accent4)">Diferencial</span>
+      </div>
+      <div class="card accent-amber">
+        <div class="card-icon">♿</div>
+        <div class="card-title">Acessibilidade</div>
+        <div class="card-text">WCAG 2.2, screen readers, navegação por teclado, contraste, formulários acessíveis. Em big techs e empresas internacionais, acessibilidade é requisito legal. Diferencial enorme no Brasil.</div>
+        <span class="card-tag" style="background:rgba(245,158,11,0.1);color:var(--accent3)">Alto valor</span>
+      </div>
+      <div class="card accent-indigo">
+        <div class="card-icon">🏛</div>
+        <div class="card-title">Arquitetura Frontend</div>
+        <div class="card-text">Feature-based folders, Atomic Design, microfrontends, Design Systems (Storybook). Separação de concerns, Clean Architecture no frontend. Escalar times grandes sem caos.</div>
+        <span class="card-tag" style="background:rgba(129,140,248,0.1);color:var(--accent6)">Sênior+</span>
+      </div>
+      <div class="card accent-rose">
+        <div class="card-icon">🔍</div>
+        <div class="card-title">SEO Técnico</div>
+        <div class="card-text">Meta tags, Open Graph, JSON-LD, sitemaps, robots.txt, canonical URLs, internacionalização (i18n). Fundamental em produtos de conteúdo e e-commerce. Saber SSR e quando usar.</div>
+        <span class="card-tag" style="background:rgba(244,63,94,0.1);color:var(--accent5)">Produto</span>
+      </div>
+      <div class="card accent-cyan">
+        <div class="card-icon">🧪</div>
+        <div class="card-title">Testes Frontend</div>
+        <div class="card-text">Jest + React Testing Library (testes de componentes), Playwright/Cypress (E2E), visual regression tests. Testes que testam comportamento, não implementação. Mentalidade TDD no frontend.</div>
+        <span class="card-tag" style="background:rgba(0,212,255,0.1);color:var(--accent1)">Importante</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 6 · BACKEND -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s6">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent6)">Backend Engineering</div>
+        <h2>O Coração dos Sistemas</h2>
+        <p class="section-desc">Backend é onde a complexidade real mora. APIs, dados, segurança, escalabilidade — as decisões aqui definem o futuro do produto.</p>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-2" style="margin-bottom:24px">
+      <div class="info-block">
+        <div class="info-block-title">🌐 APIs: REST vs GraphQL vs gRPC</div>
+        <div class="card-text" style="margin-bottom:12px">
+          <strong style="color:#fff">REST:</strong> padrão de mercado, simples, cacheável, amplamente compreendido. Use para a maioria dos casos.<br><br>
+          <strong style="color:#fff">GraphQL:</strong> cliente controla os dados que quer. Ideal para produtos com múltiplos clientes (mobile + web). Evita over/under-fetching. Meta, GitHub, Shopify usam.<br><br>
+          <strong style="color:#fff">gRPC:</strong> comunicação binária ultra-rápida entre microsserviços. Usa Protocol Buffers. Google, Uber, Netflix internamente.
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">🏗 Monolito vs Microsserviços</div>
+        <div class="card-text" style="margin-bottom:12px">
+          <strong style="color:#fff">Monolito:</strong> uma base de código. Mais simples de desenvolver, testar e fazer deploy. Ideal para startups e times pequenos. Shopify, Stack Overflow, Basecamp são monolitos em escala.<br><br>
+          <strong style="color:#fff">Microsserviços:</strong> serviços independentes. Escala teams e codebase. Mas adiciona complexidade distribuída enorme. Só vale para times grandes com maturidade. Netflix, Amazon, Uber.
+        </div>
+        <div class="quote-block" style="margin-top:0">Regra de ouro: comece com monolito. Extraia microsserviços apenas quando a dor for concreta, não teórica.</div>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-3">
+      <div class="card accent-cyan">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Redis & Cache</div>
+        <div class="card-text">Cache em memória ultra-rápido. Sessões, rate limiting, filas (Bull/BullMQ), pub/sub, leaderboards. Cache-aside, write-through, write-behind patterns. Reduz carga em banco de 80-95%.</div>
+      </div>
+      <div class="card accent-amber">
+        <div class="card-icon">📨</div>
+        <div class="card-title">Kafka & Mensageria</div>
+        <div class="card-text">Apache Kafka para event streaming de alta throughput. RabbitMQ para filas clássicas. SQS (AWS) para filas managed. Desacopla sistemas, garante entrega, permite processamento assíncrono.</div>
+      </div>
+      <div class="card accent-purple">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Bancos SQL Avançado</div>
+        <div class="card-text">PostgreSQL: índices (B-tree, GIN, GiST), particionamento, VACUUM, explain analyze, connection pooling (PgBouncer). Query optimization. ACID transactions. Muito além do SELECT básico.</div>
+      </div>
+      <div class="card accent-green">
+        <div class="card-icon">🔐</div>
+        <div class="card-title">Autenticação & Auth</div>
+        <div class="card-text">JWT vs Sessions. OAuth 2.0 / OIDC. Refresh tokens, blacklisting, JWK. SSO com Google/GitHub. PKCE flow para SPAs. Nunca implemente sua própria criptografia.</div>
+      </div>
+      <div class="card accent-rose">
+        <div class="card-icon">🚀</div>
+        <div class="card-title">Escalabilidade</div>
+        <div class="card-text">Horizontal vs vertical scaling. Load balancing (round-robin, least connections). Database replication (read replicas). Sharding. CQRS. Event Sourcing. Stateless architecture.</div>
+      </div>
+      <div class="card accent-indigo">
+        <div class="card-icon">🏎</div>
+        <div class="card-title">Performance Backend</div>
+        <div class="card-text">N+1 problem, query optimization, connection pooling, async I/O, profiling com APM (Datadog, New Relic). Identificar gargalos antes que virem incidentes em produção.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 7 · CLOUD & DEVOPS -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s7">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent1)">Cloud & DevOps</div>
+        <h2>Infraestrutura Moderna</h2>
+        <p class="section-desc">Em 2025, todo engenheiro precisa saber operar na nuvem. DevOps não é cargo — é cultura de responsabilidade pelo ciclo completo.</p>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-3" style="margin-bottom:24px">
+      <div class="card accent-amber">
+        <div class="card-icon">☁️</div>
+        <div class="card-title">AWS (líder de mercado)</div>
+        <div class="card-text">EC2, S3, RDS, Lambda, ECS/EKS, CloudFront, Route53, IAM, VPC. AWS domina com ~32% do mercado de cloud. Certificações AWS são altamente valorizadas. SAA-C03 como primeiro alvo.</div>
+        <span class="card-tag" style="background:rgba(245,158,11,0.1);color:var(--accent3)">~32% mercado</span>
+      </div>
+      <div class="card accent-cyan">
+        <div class="card-icon">🔵</div>
+        <div class="card-title">Azure (enterprise)</div>
+        <div class="card-text">Dominante em enterprise e integração com Microsoft. Azure AD, App Services, AKS, Azure Functions. Forte em empresas que já usam Microsoft 365. ~22% mercado.</div>
+        <span class="card-tag" style="background:rgba(0,212,255,0.1);color:var(--accent1)">~22% mercado</span>
+      </div>
+      <div class="card accent-green">
+        <div class="card-icon">🟢</div>
+        <div class="card-title">GCP (dados & IA)</div>
+        <div class="card-text">BigQuery, Cloud Run, GKE, Vertex AI. Preferido para workloads de dados e ML. Google internamente usa GCP. Kubernetes nasceu aqui. ~11% mercado.</div>
+        <span class="card-tag" style="background:rgba(16,185,129,0.1);color:var(--accent4)">~11% mercado</span>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-2">
+      <div class="info-block">
+        <div class="info-block-title">🐋 Docker & Containers</div>
+        <div class="card-text" style="margin-bottom:12px">Containers são a unidade de deploy moderna. Dockerfile, docker-compose, registries (ECR, GCR, DockerHub), multi-stage builds para imagens menores, segurança de containers. Hoje é pré-requisito básico de mercado.</div>
+        <ul class="checklist">
+          <li>Escrever Dockerfiles otimizados e seguros</li>
+          <li>docker-compose para desenvolvimento local</li>
+          <li>Entender camadas e caching de builds</li>
+          <li>Redes e volumes em containers</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">☸️ Kubernetes</div>
+        <div class="card-text" style="margin-bottom:12px">O orquestrador padrão de containers em produção. Pods, Deployments, Services, Ingress, ConfigMaps, Secrets, HPA (auto-scaling). CKAD e CKA como certificações. Complexo, mas fundamental em empresas médias e grandes.</div>
+        <ul class="checklist">
+          <li>Não aprenda K8s antes de entender Docker bem</li>
+          <li>kubectl como ferramenta diária</li>
+          <li>Helm charts para gerenciar aplicações</li>
+          <li>Comece com minikube ou kind localmente</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">🔄 CI/CD Pipelines</div>
+        <div class="card-text" style="margin-bottom:12px">GitHub Actions (padrão 2025), GitLab CI, Jenkins. Pipeline: testes → build → análise estática → deploy staging → deploy prod. Feature flags para releases seguros. ArgoCD para GitOps.</div>
+        <ul class="checklist">
+          <li>GitHub Actions é o mais importante para aprender primeiro</li>
+          <li>Trunk-based development vs feature branches</li>
+          <li>Blue/green e canary deployments</li>
+          <li>Rollback automático em caso de falha</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">📡 Observabilidade</div>
+        <div class="card-text" style="margin-bottom:12px">Os três pilares: Logs (estruturados, correlacionados), Metrics (Prometheus + Grafana), Traces (OpenTelemetry, Jaeger, Datadog). SLI/SLO/SLA. Alerting inteligente. Você não pode melhorar o que não mede.</div>
+        <ul class="checklist">
+          <li>OpenTelemetry como padrão open source</li>
+          <li>Datadog, New Relic para empresas (pago)</li>
+          <li>ELK Stack (Elasticsearch, Logstash, Kibana)</li>
+          <li>On-call rotations e post-mortems sem culpa</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 8 · BOAS PRÁTICAS -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s8">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent2)">Engenharia Real</div>
+        <h2>Código que Envelhece Bem</h2>
+        <p class="section-desc">Qualquer pessoa escreve código que funciona. Engenheiros escrevem código que outras pessoas conseguem entender, manter e evoluir.</p>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-2">
+      <div class="info-block">
+        <div class="info-block-title">✨ Clean Code</div>
+        <div class="card-text" style="margin-bottom:12px">Nomes que revelam intenção, funções pequenas com uma responsabilidade, sem comentários desnecessários (o código deve ser autodocumentado), evitar efeitos colaterais. Robert C. Martin como referência fundamental.</div>
+        <div class="code-block">
+<span class="c">// ❌ Ruim</span>
+<span class="k">function</span> <span class="n">d</span>(u, dt) { <span class="k">return</span> u.a >= dt; }
+
+<span class="c">// ✓ Clean</span>
+<span class="k">function</span> <span class="n">isUserEligibleForPromotion</span>(user, today) {
+  <span class="k">return</span> user.accountAge >= today;
+}
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">🧱 Princípios SOLID</div>
+        <ul class="checklist" style="margin-top:8px">
+          <li><strong>S</strong> — Single Responsibility: cada classe/função faz UMA coisa</li>
+          <li><strong>O</strong> — Open/Closed: aberto para extensão, fechado para modificação</li>
+          <li><strong>L</strong> — Liskov Substitution: subtipos substituem seus tipos</li>
+          <li><strong>I</strong> — Interface Segregation: interfaces específicas, não genéricas</li>
+          <li><strong>D</strong> — Dependency Inversion: dependa de abstrações, não de implementações</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">🎨 Design Patterns (GoF)</div>
+        <div class="card-text" style="margin-bottom:12px">23 padrões clássicos. Os mais usados no mercado:</div>
+        <div class="info-grid">
+          <div>
+            <div class="info-item-label">Criacionais</div>
+            <div class="info-item-val">Singleton, Factory, Builder, Prototype</div>
+          </div>
+          <div>
+            <div class="info-item-label">Estruturais</div>
+            <div class="info-item-val">Adapter, Decorator, Facade, Proxy, Composite</div>
+          </div>
+          <div>
+            <div class="info-item-label">Comportamentais</div>
+            <div class="info-item-val">Observer, Strategy, Command, Chain of Responsibility</div>
+          </div>
+          <div>
+            <div class="info-item-label">Atenção</div>
+            <div class="info-item-val" style="color:var(--accent3)">Não aplique pattern sem necessidade concreta</div>
+          </div>
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">🧪 Testes: A Pirâmide</div>
+        <div class="card-text" style="margin-bottom:12px">
+          <strong style="color:#fff">Unitários (base):</strong> rápidos, isolados, testam uma unidade de lógica.<br>
+          <strong style="color:#fff">Integração (meio):</strong> testam como componentes trabalham juntos.<br>
+          <strong style="color:#fff">E2E (topo):</strong> lentos, frágeis, mas validam fluxos completos.<br><br>
+          TDD (Test-Driven Development): escreva o teste antes do código. Força design melhor.
+        </div>
+      </div>
+    </div>
+
+    <div class="info-block" style="margin-top:16px">
+      <div class="info-block-title">🏰 Domain-Driven Design (DDD)</div>
+      <div class="card-text" style="margin-bottom:16px">Abordagem de design centrada no domínio do negócio. Para sistemas complexos com regras de negócio ricas. Conceitos fundamentais:</div>
+      <div class="cards-grid cols-3">
+        <div>
+          <div class="info-item-label">Blocos táticos</div>
+          <div class="info-item-val">Entities, Value Objects, Aggregates, Repositories, Domain Services, Domain Events</div>
+        </div>
+        <div>
+          <div class="info-item-label">Blocos estratégicos</div>
+          <div class="info-item-val">Bounded Contexts, Ubiquitous Language, Context Mapping, Anti-Corruption Layer</div>
+        </div>
+        <div>
+          <div class="info-item-label">Quando usar</div>
+          <div class="info-item-val" style="color:var(--accent3)">Domínios complexos. Para CRUDs simples, DDD é overkill.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 9 · IA & FUTURO -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s9">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent4)">IA & Futuro</div>
+        <h2>A Transformação em Curso</h2>
+        <p class="section-desc">A IA não vai substituir engenheiros — vai substituir engenheiros que não sabem usar IA. Mas engenheiros rasos serão os primeiros afetados.</p>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-3" style="margin-bottom:24px">
+      <div class="card accent-green">
+        <div class="card-icon">🤖</div>
+        <div class="card-title">AI Engineering (2025)</div>
+        <div class="card-text">Integrar LLMs em produtos reais. RAG (Retrieval-Augmented Generation), embeddings vetoriais, vector databases (Pinecone, Weaviate, pgvector), function calling, structured outputs.</div>
+        <span class="card-tag" style="background:rgba(16,185,129,0.1);color:var(--accent4)">🔥 Área mais quente</span>
+      </div>
+      <div class="card accent-purple">
+        <div class="card-icon">🕹</div>
+        <div class="card-title">Agentes de IA</div>
+        <div class="card-text">Sistemas autônomos que planejam e executam tarefas complexas. LangChain, LlamaIndex, CrewAI, AutoGen. Agentes com tools (busca, código, APIs). O próximo passo após chatbots.</div>
+        <span class="card-tag" style="background:rgba(124,58,237,0.1);color:#a78bfa">Explosivo 2025-2026</span>
+      </div>
+      <div class="card accent-cyan">
+        <div class="card-icon">✍️</div>
+        <div class="card-title">Prompt Engineering</div>
+        <div class="card-text">Chain-of-thought, few-shot, zero-shot, ReAct, system prompts eficazes. Context engineering — como estruturar contexto para outputs consistentes. Skill que diferencia quem usa IA bem de quem usa mal.</div>
+        <span class="card-tag" style="background:rgba(0,212,255,0.1);color:var(--accent1)">Meta-habilidade</span>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-2">
+      <div class="info-block">
+        <div class="info-block-title">🛡 O que NÃO será substituído</div>
+        <ul class="checklist" style="margin-top:8px">
+          <li><strong>Arquitetura de sistemas complexos</strong> — decisões com trade-offs humanos</li>
+          <li><strong>Comunicação e negociação técnica</strong> com stakeholders</li>
+          <li><strong>Debugging de sistemas distribuídos em produção</strong> sob pressão</li>
+          <li><strong>Julgamento sobre segurança e conformidade</strong></li>
+          <li><strong>Mentoria e liderança técnica</strong> de times</li>
+          <li><strong>Definição do que construir</strong> e por quê — visão de produto</li>
+          <li><strong>Responsabilidade e accountability</strong> técnica</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">⚡ Como usar IA sem virar dependente</div>
+        <ul class="checklist" style="margin-top:8px">
+          <li>Use IA para <strong>acelerar</strong>, não para <strong>substituir</strong> o raciocínio</li>
+          <li>Sempre entenda o código gerado antes de commitar</li>
+          <li>IA é melhor em código novo; você é melhor em contexto existente</li>
+          <li>Use para <strong>explorar</strong> APIs, sintaxe, patterns desconhecidos</li>
+          <li>Documente decisões arquiteturais você mesmo — não delegue</li>
+          <li>Construa fundamentos sólidos primeiro — IA amplifica, não substitui</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quote-block" style="margin-top:16px">
+      "A IA torna desenvolvedores mediocres mais produtivos e desenvolvedores excepcionais extraordinários. O gap entre os dois está crescendo, não diminuindo."
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 10 · SEGURANÇA -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s10">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent5)">Segurança</div>
+        <h2>Segurança por Padrão</h2>
+        <p class="section-desc">Em 2025, segurança não é responsabilidade de um time isolado — é de cada engenheiro em cada linha de código.</p>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-3">
+      <div class="card accent-rose">
+        <div class="card-icon">🎯</div>
+        <div class="card-title">OWASP Top 10</div>
+        <div class="card-text">As 10 vulnerabilidades mais críticas: SQL Injection, XSS, CSRF, IDOR, Security Misconfiguration, Crypto Failures, Injection, Authentication Breaks, SSRF. Estude e internalize cada uma.</div>
+      </div>
+      <div class="card accent-purple">
+        <div class="card-icon">🔐</div>
+        <div class="card-title">Criptografia</div>
+        <div class="card-text">Hashing (bcrypt, Argon2 para senhas — NUNCA MD5/SHA1), TLS/SSL, AES para dados em repouso, RSA/ECC para chaves públicas. Entender os conceitos sem precisar implementar do zero.</div>
+      </div>
+      <div class="card accent-cyan">
+        <div class="card-icon">🔑</div>
+        <div class="card-title">Gestão de Segredos</div>
+        <div class="card-text">Nunca committar senhas, keys ou tokens. AWS Secrets Manager, HashiCorp Vault, dotenv local. Rotação automática de credenciais. Princípio do menor privilégio (IAM).</div>
+      </div>
+      <div class="card accent-amber">
+        <div class="card-icon">🛡</div>
+        <div class="card-title">DevSecOps</div>
+        <div class="card-text">Segurança no pipeline CI/CD: SAST (análise estática), DAST, SCA (dependências vulneráveis), container scanning, IaC scanning (Checkov, tfsec). Snyk como ferramenta popular.</div>
+      </div>
+      <div class="card accent-green">
+        <div class="card-icon">☁️</div>
+        <div class="card-title">Segurança em Cloud</div>
+        <div class="card-text">IAM bem configurado (least privilege), Security Groups, WAF, CloudTrail para auditoria, GuardDuty para detecção de ameaças, criptografia de dados em repouso e em trânsito.</div>
+      </div>
+      <div class="card accent-indigo">
+        <div class="card-icon">🏗</div>
+        <div class="card-title">Threat Modeling</div>
+        <div class="card-text">STRIDE, PASTA, árvores de ataque. Identificar ameaças antes de construir, não depois. Arquitetura Zero Trust. Security by design, não security by afterthought.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 11 · MOBILE -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s11">
+    <div class="section-header">
+      <span class="section-num">11</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent3)">Mobile Engineering</div>
+        <h2>Apps que Vivem no Bolso</h2>
+        <p class="section-desc">Mobile é onde bilhões de usuários vivem. Dominar esta plataforma abre mercados enormes.</p>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-2">
+      <div class="info-block">
+        <div class="info-block-title">🤖 Android (Kotlin)</div>
+        <div class="card-text" style="margin-bottom:12px">Kotlin substituiu Java como linguagem oficial Android. Jetpack Compose é o UI toolkit moderno (declarativo, como SwiftUI). ViewModel, Flow, Coroutines, Room, Retrofit são o stack padrão. ~71% do mercado mobile global.</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-item-label">Salário BR</div><div class="info-item-val">R$ 7k–22k/mês</div></div>
+          <div class="info-item"><div class="info-item-label">Tendência</div><div class="info-item-val" style="color:var(--accent4)">↑ Compose crescendo</div></div>
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">🍎 iOS (Swift)</div>
+        <div class="card-text" style="margin-bottom:12px">Swift é elegante e moderno. SwiftUI para UI declarativa. UIKit ainda necessário para casos avançados. Combine/async-await para programação assíncrona. Xcode como IDE única. Salários premium, especialmente no exterior.</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-item-label">Salário EUA</div><div class="info-item-val" style="color:var(--accent4)">$100k–$210k/ano</div></div>
+          <div class="info-item"><div class="info-item-label">Tendência</div><div class="info-item-val" style="color:var(--accent4)">↑ Estável e premium</div></div>
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">💙 Flutter (Dart)</div>
+        <div class="card-text" style="margin-bottom:12px">Framework do Google para cross-platform (iOS, Android, Web, Desktop) com uma única base de código. UI própria em Dart — não usa componentes nativos. Excelente performance para apps de negócio. Muito adotado no Brasil e mercado europeu.</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-item-label">Vantagem</div><div class="info-item-val">Uma codebase para todas as plataformas</div></div>
+          <div class="info-item"><div class="info-item-label">Desvantagem</div><div class="info-item-val">Dart tem ecossistema menor, menos libs nativas</div></div>
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">⚛️ React Native</div>
+        <div class="card-text" style="margin-bottom:12px">Cross-platform usando JavaScript/TypeScript e componentes nativos. Aproveitamento de skills React do frontend. Expo como plataforma de desenvolvimento facilitado. Usado por Meta, Shopify, Microsoft. Nova arquitetura (Fabric + JSI) melhora muito performance.</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-item-label">Vantagem</div><div class="info-item-val">Aproveita time JS existente, ecossistema enorme</div></div>
+          <div class="info-item"><div class="info-item-label">Melhor para</div><div class="info-item-val">Apps de negócio, startups, MVP rápido</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 12 · CARREIRA -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s12">
+    <div class="section-header">
+      <span class="section-num">12</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent6)">Mapa de Carreira</div>
+        <h2>Do Estágio ao Global</h2>
+        <p class="section-desc">Carreira em tech não é linear. Mas há padrões claros que separam quem cresce rápido de quem fica estagnado.</p>
+      </div>
+    </div>
+
+    <table class="role-table" style="margin-bottom:32px">
+      <thead>
+        <tr>
+          <th>Nível</th>
+          <th>Anos típicos</th>
+          <th>O que fazem</th>
+          <th>Salário BR</th>
+          <th>Salário EUA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="role-name">Estagiário</span></td>
+          <td>0</td>
+          <td>Aprende, executa tarefas guiadas, entende codebase</td>
+          <td style="color:var(--accent4)">R$ 1.5k–3k</td>
+          <td style="color:var(--accent4)">$30–60/h</td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Júnior</span></td>
+          <td>0–2 anos</td>
+          <td>Executa tarefas bem definidas, precisa de guidance</td>
+          <td style="color:var(--accent4)">R$ 4k–10k</td>
+          <td style="color:var(--accent4)">$70k–$110k</td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Pleno</span></td>
+          <td>2–5 anos</td>
+          <td>Resolve problemas com autonomia, colabora bem</td>
+          <td style="color:var(--accent4)">R$ 10k–18k</td>
+          <td style="color:var(--accent4)">$110k–$160k</td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Sênior</span></td>
+          <td>5–8 anos</td>
+          <td>Lidera tecnicamente, resolve problemas complexos, mentorar</td>
+          <td style="color:var(--accent4)">R$ 18k–35k</td>
+          <td style="color:var(--accent4)">$150k–$220k</td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Staff Engineer</span></td>
+          <td>8–12 anos</td>
+          <td>Impacto cross-team, define direção técnica, RFC</td>
+          <td style="color:var(--accent4)">R$ 30k–60k</td>
+          <td style="color:var(--accent4)">$200k–$350k</td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Principal / Distinguished</span></td>
+          <td>12+ anos</td>
+          <td>Impacto de engenharia em toda a empresa ou indústria</td>
+          <td style="color:var(--accent1)">R$ 50k–100k+</td>
+          <td style="color:var(--accent1)">$350k–$600k+</td>
+        </tr>
+        <tr>
+          <td><span class="role-name">Tech Lead</span></td>
+          <td>5+ anos</td>
+          <td>Liderança técnica de um time (híbrido eng + gestão)</td>
+          <td style="color:var(--accent4)">R$ 20k–40k</td>
+          <td style="color:var(--accent4)">$160k–$250k</td>
+        </tr>
+        <tr>
+          <td><span class="role-name">CTO</span></td>
+          <td>Variado</span></td>
+          <td>Visão tecnológica da empresa, liderança C-level</td>
+          <td style="color:var(--accent1)">R$ 40k–200k+</td>
+          <td style="color:var(--accent1)">$250k–$1M+</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="cards-grid cols-2">
+      <div class="info-block">
+        <div class="info-block-title">🎯 Como entrar em Big Techs</div>
+        <ul class="checklist">
+          <li><strong>LeetCode:</strong> 150–300 problemas (fácil → médio → difícil). NeetCode 150 é o melhor currículo.</li>
+          <li><strong>System Design:</strong> livro "Designing Data-Intensive Applications", canal Gaurav Sen</li>
+          <li><strong>Comportamental:</strong> método STAR. Amazon Leadership Principles.</li>
+          <li><strong>Networking:</strong> LinkedIn, referrals valem 5x mais que candidatura fria</li>
+          <li><strong>Inglês técnico fluente</strong> — obrigatório para Big Techs globais</li>
+          <li>Contribuições open source relevantes são diferenciais reais</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">🌍 Como trabalhar remoto para fora</div>
+        <ul class="checklist">
+          <li><strong>Plataformas:</strong> Toptal, Turing, Deel, Remote.com, LinkedIn International</li>
+          <li><strong>Inglês</strong> é requisito. C1+ para comunicação técnica fluente.</li>
+          <li>Portfólio público e ativo no GitHub é cartão de visita</li>
+          <li>Timezone: América do Norte e Europa são os maiores mercados</li>
+          <li>PJ internacional: entenda câmbio, impostos, contratos</li>
+          <li>Networking em comunidades internacionais (Discord, Slack de OSS)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 13 · PORTFÓLIO -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s13">
+    <div class="section-header">
+      <span class="section-num">13</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent1)">Portfólio de Elite</div>
+        <h2>Projetos que Impressionam</h2>
+        <p class="section-desc">Recrutadores de Big Techs olham para profundidade, não quantidade. Três projetos excepcionais superam vinte projetos mediocres.</p>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-3">
+      <div class="card accent-green">
+        <div class="card-icon">🌱</div>
+        <div class="card-title">Iniciante</div>
+        <div class="card-text">
+          <strong style="color:#fff">Todo App com autenticação</strong> — CRUD completo, login, sessões<br><br>
+          <strong style="color:#fff">Weather App com API externa</strong> — consumir REST, async/await<br><br>
+          <strong style="color:#fff">Clone de site famoso</strong> — foco em fidelidade visual e responsividade
+        </div>
+        <span class="card-tag" style="background:rgba(16,185,129,0.1);color:var(--accent4)">Demonstra: fundamentos</span>
+      </div>
+      <div class="card accent-amber">
+        <div class="card-icon">🔥</div>
+        <div class="card-title">Intermediário</div>
+        <div class="card-text">
+          <strong style="color:#fff">SaaS de gestão de tarefas</strong> — multi-tenant, planos, pagamentos (Stripe)<br><br>
+          <strong style="color:#fff">API REST completa</strong> — auth, docs (Swagger), testes, deploy<br><br>
+          <strong style="color:#fff">Chat real-time</strong> — WebSockets, Redis pub/sub, escalável
+        </div>
+        <span class="card-tag" style="background:rgba(245,158,11,0.1);color:var(--accent3)">Demonstra: produto real</span>
+      </div>
+      <div class="card accent-purple">
+        <div class="card-icon">🚀</div>
+        <div class="card-title">Avançado / Impressiona</div>
+        <div class="card-text">
+          <strong style="color:#fff">Sistema distribuído</strong> — microsserviços, Kafka, K8s, observabilidade<br><br>
+          <strong style="color:#fff">Plataforma SaaS com IA</strong> — LLMs, RAG, agentes, billing, multi-tenancy<br><br>
+          <strong style="color:#fff">Contribuição open source relevante</strong> — PR aceito em projeto com +1k stars
+        </div>
+        <span class="card-tag" style="background:rgba(124,58,237,0.1);color:#a78bfa">Demonstra: engenharia de verdade</span>
+      </div>
+    </div>
+
+    <div class="info-block" style="margin-top:16px">
+      <div class="info-block-title">📋 GitHub Profissional</div>
+      <div class="cards-grid cols-3" style="margin-top:14px">
+        <div>
+          <div class="info-item-label">README excelente</div>
+          <div class="info-item-val">Demo ao vivo, screenshots, como rodar localmente, decisões de arquitetura explicadas</div>
+        </div>
+        <div>
+          <div class="info-item-label">Commits limpos</div>
+          <div class="info-item-val">Conventional Commits, mensagens descritivas, commits atômicos. Histórico conta história do projeto.</div>
+        </div>
+        <div>
+          <div class="info-item-label">CI/CD funcionando</div>
+          <div class="info-item-val">GitHub Actions com testes, lint, deploy automático. Badge de build passing no README.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 14 · BIG TECHS -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s14">
+    <div class="section-header">
+      <span class="section-num">14</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent2)">Big Techs</div>
+        <h2>Como as Gigantes Operam</h2>
+        <p class="section-desc">Entender como as maiores empresas de tecnologia do mundo estruturam engenharia é essencial para qualquer aspirante ao nível global.</p>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-2">
+      <div class="card accent-cyan">
+        <div class="card-icon">🔍</div>
+        <div class="card-title">Google</div>
+        <div class="card-text"><strong>Stack:</strong> Go, C++, Python, Java, Kotlin (Android), Dart (Flutter). Spanner, BigQuery, Kubernetes (criado aqui). <strong>Cultura:</strong> 20% projects, code reviews rigorosos, SRE (inventaram o conceito). <strong>Entrevista:</strong> algoritmos difíceis + system design. <strong>Diferencial:</strong> escala absurda, pesquisa de ponta.</div>
+      </div>
+      <div class="card accent-purple">
+        <div class="card-icon">🌐</div>
+        <div class="card-title">Meta (Facebook)</div>
+        <div class="card-text"><strong>Stack:</strong> React (criaram!), PHP/Hack, Python, C++, Rust (crescendo). PyTorch para IA. <strong>Cultura:</strong> "Move fast and break things" evoluiu para "Move fast with stable infra". <strong>Entrevista:</strong> coding + system design + comportamental (values). <strong>Salários:</strong> top do mercado.</div>
+      </div>
+      <div class="card accent-amber">
+        <div class="card-icon">📦</div>
+        <div class="card-title">Amazon (AWS)</div>
+        <div class="card-text"><strong>Stack:</strong> Java, Python, TypeScript, Rust (crescendo). Ownership de serviços completos (two-pizza teams). <strong>Cultura:</strong> 16 Leadership Principles são literais. Frugalidade, ownership, customer obsession. <strong>Entrevista:</strong> muito foco em LPs com exemplos STAR.</div>
+      </div>
+      <div class="card accent-cyan">
+        <div class="card-icon">🪟</div>
+        <div class="card-title">Microsoft</div>
+        <div class="card-text"><strong>Stack:</strong> C#, TypeScript, Python, C++, Rust (crescendo). Azure, GitHub, VSCode, Teams. <strong>Cultura:</strong> growth mindset (transformação Satya Nadella). Open source fortíssimo. <strong>Destaque:</strong> maior investidor em OpenAI, dominando IA enterprise.</div>
+      </div>
+      <div class="card accent-rose">
+        <div class="card-icon">🎬</div>
+        <div class="card-title">Netflix</div>
+        <div class="card-text"><strong>Stack:</strong> Java, Python, Node.js, React. Chaos Engineering (inventaram o conceito com Chaos Monkey). <strong>Cultura:</strong> alta autonomia + alta accountability. "Freedom and responsibility". Bônus únicos em cash. <strong>Entrevista:</strong> muito sobre cultura, não só técnico.</div>
+      </div>
+      <div class="card accent-green">
+        <div class="card-icon">💳</div>
+        <div class="card-title">Stripe</div>
+        <div class="card-text"><strong>Stack:</strong> Ruby, Go, TypeScript, Scala. Documentação técnica lendária. APIs extremamente bem desenhadas. <strong>Cultura:</strong> escrita e comunicação são elevadas a skill técnica. RFCs, ADRs, documentação interna de altíssima qualidade. Melhor DX (developer experience) do mundo.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 15 · SALÁRIOS -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s15">
+    <div class="section-header">
+      <span class="section-num">15</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent3)">Salários & Mercado</div>
+        <h2>O que o Mercado Paga</h2>
+        <p class="section-desc">Dados de 2025. Valores aproximados — variam por empresa, cidade, stack e habilidades de negociação.</p>
+      </div>
+    </div>
+
+    <div class="salary-grid" style="margin-bottom:24px">
+      <div class="salary-cell header"></div>
+      <div class="salary-cell header">Brasil CLT/PJ</div>
+      <div class="salary-cell header">EUA (remoto)</div>
+      <div class="salary-cell header">EUA Big Tech</div>
+      <div class="salary-cell" style="background:var(--surface2)"><div class="salary-level">Júnior</div></div>
+      <div class="salary-cell"><div class="salary-range" style="color:var(--accent4)">R$ 4k–10k/mês</div></div>
+      <div class="salary-cell"><div class="salary-range" style="color:var(--accent1)">$70k–$110k/ano</div></div>
+      <div class="salary-cell"><div class="salary-range" style="color:var(--accent1)">$120k–$180k/ano</div></div>
+      <div class="salary-cell" style="background:var(--surface2)"><div class="salary-level">Pleno</div></div>
+      <div class="salary-cell"><div class="salary-range" style="color:var(--accent4)">R$ 10k–18k/mês</div></div>
+      <div class="salary-cell"><div class="salary-range" style="color:var(--accent1)">$110k–$160k/ano</div></div>
+      <div class="salary-cell"><div class="salary-range" style="color:var(--accent1)">$180k–$280k/ano</div></div>
+      <div class="salary-cell" style="background:var(--surface2)"><div class="salary-level">Sênior</div></div>
+      <div class="salary-cell"><div class="salary-range" style="color:var(--accent4)">R$ 18k–35k/mês</div></div>
+      <div class="salary-cell"><div class="salary-range" style="color:var(--accent1)">$150k–$220k/ano</div></div>
+      <div class="salary-cell"><div class="salary-range" style="color:var(--accent3)">$250k–$450k/ano</div></div>
+      <div class="salary-cell" style="background:var(--surface2)"><div class="salary-level">Staff+</div></div>
+      <div class="salary-cell"><div class="salary-range" style="color:var(--accent4)">R$ 30k–80k/mês</div></div>
+      <div class="salary-cell"><div class="salary-range" style="color:var(--accent3)">$200k–$350k/ano</div></div>
+      <div class="salary-cell"><div class="salary-range" style="color:var(--accent5)">$400k–$800k+/ano</div></div>
+    </div>
+
+    <div class="cards-grid cols-3">
+      <div class="card accent-rose">
+        <div class="card-icon">🔥</div>
+        <div class="card-title">Áreas Mais Lucrativas (2025)</div>
+        <ul class="checklist" style="margin-top:10px">
+          <li><strong>AI/ML Engineering</strong> — maior demanda, menor oferta</li>
+          <li><strong>Security Engineering</strong> — escassez crônica</li>
+          <li><strong>Staff / Principal Engineer</strong> — raros no mercado</li>
+          <li><strong>Cloud Architecture</strong> — toda empresa migrando</li>
+          <li><strong>Platform Engineering</strong> — nova área premium</li>
+        </ul>
+      </div>
+      <div class="card accent-amber">
+        <div class="card-icon">📈</div>
+        <div class="card-title">Stack Mais Valorizada</div>
+        <ul class="checklist" style="margin-top:10px">
+          <li><strong>TypeScript + React</strong> — frontend premium</li>
+          <li><strong>Go ou Rust</strong> — backend cloud-native</li>
+          <li><strong>Python + PyTorch</strong> — IA/ML</li>
+          <li><strong>AWS + K8s + Terraform</strong> — cloud/DevOps</li>
+          <li><strong>LLMs + RAG + Agents</strong> — AI Engineering</li>
+        </ul>
+      </div>
+      <div class="card accent-cyan">
+        <div class="card-icon">💡</div>
+        <div class="card-title">Dica de Negociação</div>
+        <ul class="checklist" style="margin-top:10px">
+          <li>Nunca dê o primeiro número</li>
+          <li>Pesquise em Glassdoor, Levels.fyi, Blind</li>
+          <li>Total compensation ≠ salário base (RSUs, bônus)</li>
+          <li>Counter-offer é esperado — não é rude</li>
+          <li>Outras ofertas fortalecem sua posição</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 16 · PLANO DE ESTUDOS -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s16">
+    <div class="section-header">
+      <span class="section-num">16</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent4)">Plano de Estudos</div>
+        <h2>Do Zero ao Emprego em 12 Meses</h2>
+        <p class="section-desc">Um plano realista, baseado em prática constante, não em consumo passivo de conteúdo.</p>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(event,'t30')">30 Dias</button>
+      <button class="tab-btn" onclick="switchTab(event,'t90')">90 Dias</button>
+      <button class="tab-btn" onclick="switchTab(event,'t1y')">1 Ano</button>
+      <button class="tab-btn" onclick="switchTab(event,'t3y')">3 Anos</button>
+    </div>
+
+    <div class="tab-panel active" id="t30">
+      <table class="plan-table">
+        <thead><tr><th>Semana</th><th>Foco</th><th>Prática Diária</th><th>Meta</th></tr></thead>
+        <tbody>
+          <tr><td><span class="plan-week">Semana 1</span></td><td>Lógica de programação, variáveis, condicionais, loops</td><td>30 exercícios no Exercism ou Beecrowd</td><td>Pensar em sequências de passos</td></tr>
+          <tr><td><span class="plan-week">Semana 2</span></td><td>Funções, arrays, objetos, manipulação de dados</td><td>20 exercícios, primeiro script útil</td><td>Resolver problemas com funções</td></tr>
+          <tr><td><span class="plan-week">Semana 3</span></td><td>Git básico, HTML, CSS fundamentos, primeiro site</td><td>Commitar todo dia, página pessoal</td><td>Site online em Vercel/Netlify</td></tr>
+          <tr><td><span class="plan-week">Semana 4</span></td><td>JavaScript no DOM, eventos, fetch/API, projeto</td><td>Projeto completo consumindo API pública</td><td>Portfólio com 1 projeto real online</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tab-panel" id="t90">
+      <table class="plan-table">
+        <thead><tr><th>Mês</th><th>Foco</th><th>Entregáveis</th></tr></thead>
+        <tbody>
+          <tr><td><span class="plan-week">Mês 1</span></td><td>Fundamentos sólidos (lógica, JS/Python, Git, HTML/CSS)</td><td>3 projetos simples no GitHub, rotina de estudos estabelecida</td></tr>
+          <tr><td><span class="plan-week">Mês 2</span></td><td>React básico, APIs REST, SQL, autenticação</td><td>Fullstack app com banco de dados, login funcional</td></tr>
+          <tr><td><span class="plan-week">Mês 3</span></td><td>TypeScript, deploy cloud, testes, portfólio profissional</td><td>2 projetos TypeScript com CI/CD, candidatura a primeira vaga</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tab-panel" id="t1y">
+      <table class="plan-table">
+        <thead><tr><th>Trimestre</th><th>Foco</th><th>Nível ao final</th></tr></thead>
+        <tbody>
+          <tr><td><span class="plan-week">Q1</span></td><td>Fundamentos + primeira stack completa (React + Node + PostgreSQL)</td><td>Júnior iniciante</td></tr>
+          <tr><td><span class="plan-week">Q2</span></td><td>Projetos reais, Docker, Cloud básico, algoritmos fundamentais</td><td>Júnior sólido</td></tr>
+          <tr><td><span class="plan-week">Q3</span></td><td>Clean Code, testes, patterns, primeiro emprego/freelance</td><td>Júnior avançado</td></tr>
+          <tr><td><span class="plan-week">Q4</span></td><td>Experiência real, contribuição OSS, LeetCode médio, system design básico</td><td>Transição para pleno</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tab-panel" id="t3y">
+      <table class="plan-table">
+        <thead><tr><th>Ano</th><th>Foco</th><th>Meta de carreira</th></tr></thead>
+        <tbody>
+          <tr><td><span class="plan-week">Ano 1</span></td><td>Fundamentos + stack principal + primeiro emprego</td><td>Júnior contratado, crescendo rápido</td></tr>
+          <tr><td><span class="plan-week">Ano 2</span></td><td>Arquitetura, cloud profissional, liderança técnica inicial, inglês</td><td>Pleno sólido, remoto ou empresa de ponta</td></tr>
+          <tr><td><span class="plan-week">Ano 3</span></td><td>System design avançado, especialização (IA/Cloud/Segurança), rede global</td><td>Sênior ou entrevistas Big Tech internacionais</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-block" style="margin-top:24px">
+      <div class="info-block-title">⏰ Rotina Diária Ideal</div>
+      <div class="cards-grid cols-3" style="margin-top:14px">
+        <div>
+          <div class="info-item-label">Manhã (30–45 min)</div>
+          <div class="info-item-val">1 exercício LeetCode (fácil/médio) + revisão de conceito do dia anterior. Mente fresca = melhor raciocínio.</div>
+        </div>
+        <div>
+          <div class="info-item-label">Principal (1–2h)</div>
+          <div class="info-item-val">Construção de projeto real. Sem tutorial — resolver problemas reais. Documentar o que aprendeu.</div>
+        </div>
+        <div>
+          <div class="info-item-label">Noite (30 min)</div>
+          <div class="info-item-val">Leitura técnica (documentação, artigos, newsletter). Sem vídeo. Processar conceitos antes de dormir.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 17 · RECURSOS -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s17">
+    <div class="section-header">
+      <span class="section-num">17</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent5)">Recursos de Elite</div>
+        <h2>Biblioteca da Engenharia</h2>
+        <p class="section-desc">Menos recursos, mais profundidade. Um livro lido duas vezes vale mais que dez lidos uma.</p>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-2">
+      <div class="info-block">
+        <div class="info-block-title">📚 Livros Obrigatórios</div>
+        <ul class="checklist" style="margin-top:8px">
+          <li><strong>Clean Code</strong> — Robert C. Martin · Como escrever código legível</li>
+          <li><strong>Designing Data-Intensive Applications</strong> — Kleppmann · Bíblia de sistemas distribuídos</li>
+          <li><strong>The Pragmatic Programmer</strong> — Hunt & Thomas · Mentalidade de engenheiro excelente</li>
+          <li><strong>DDIA</strong> (acima) + <strong>System Design Interview</strong> (Alex Xu) · Para Big Techs</li>
+          <li><strong>Computer Systems: A Programmer's Perspective</strong> — Fundamentos profundos</li>
+          <li><strong>The Manager's Path</strong> — Camille Fournier · Para quem quer liderança</li>
+          <li><strong>Staff Engineer</strong> — Will Larson · Para nível sênior/staff</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">🎯 Plataformas de Prática</div>
+        <ul class="checklist" style="margin-top:8px">
+          <li><strong>LeetCode</strong> — algoritmos e entrevistas (foco em NeetCode 150)</li>
+          <li><strong>Exercism.io</strong> — prática de linguagem com mentoria</li>
+          <li><strong>roadmap.sh</strong> — guias visuais de trilhas</li>
+          <li><strong>The Odin Project</strong> — fullstack gratuito e excelente</li>
+          <li><strong>CS50 (Harvard/edX)</strong> — fundamentos de CS de classe mundial</li>
+          <li><strong>Frontend Mentor</strong> — desafios de UI reais</li>
+          <li><strong>Hack The Box</strong> — prática de segurança</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">📰 Newsletters & Blogs</div>
+        <ul class="checklist" style="margin-top:8px">
+          <li><strong>ByteByteGo</strong> — system design explicado visualmente</li>
+          <li><strong>The Pragmatic Engineer</strong> — Gergely Orosz, insider de Big Techs</li>
+          <li><strong>TLDR Newsletter</strong> — tech news diário condensado</li>
+          <li><strong>Engineering Blogs:</strong> Netflix Tech, Uber Engineering, Meta Engineering, Stripe Blog</li>
+          <li><strong>Martin Fowler's Blog</strong> — arquitetura e patterns</li>
+          <li><strong>Dan Abramov</strong> — React e frontend profundo</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">🎧 Canais & Podcasts</div>
+        <ul class="checklist" style="margin-top:8px">
+          <li><strong>Fireship (YouTube)</strong> — tech moderna em formato rápido</li>
+          <li><strong>Theo (t3.gg)</strong> — fullstack JS/TS opiniado</li>
+          <li><strong>Gaurav Sen</strong> — system design profundo</li>
+          <li><strong>NeetCode</strong> — algoritmos e LeetCode</li>
+          <li><strong>Software Engineering Daily</strong> — podcast técnico profundo</li>
+          <li><strong>Lex Fridman</strong> — IA e engenharia de ponta</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 18 · MAPA VISUAL -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s18">
+    <div class="section-header">
+      <span class="section-num">18</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent6)">Mapa Visual</div>
+        <h2>A Árvore do Conhecimento</h2>
+        <p class="section-desc">Visualize as dependências entre habilidades e o caminho da sua evolução.</p>
+      </div>
+    </div>
+
+    <div class="mind-map">
+      <div class="mind-map-center">🎯 Engenharia de Software</div>
+
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Fundamentos (Base Obrigatória)</div>
+      <div class="mind-map-row">
+        <span class="mind-node n1">🧩 Lógica</span>
+        <span class="mind-node n1">📐 Algoritmos</span>
+        <span class="mind-node n1">🌳 Estrut. Dados</span>
+        <span class="mind-node n1">🖥 SO & Redes</span>
+        <span class="mind-node n1">🗄 Banco de Dados</span>
+        <span class="mind-node n1">Git & Terminal</span>
+      </div>
+
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:20px 0 12px">Linguagens (Escolha 1-2 para dominar)</div>
+      <div class="mind-map-row">
+        <span class="mind-node n2">JS/TS</span>
+        <span class="mind-node n2">Python</span>
+        <span class="mind-node n2">Go</span>
+        <span class="mind-node n2">Java/Kotlin</span>
+        <span class="mind-node n2">Rust</span>
+        <span class="mind-node n2">C#</span>
+        <span class="mind-node n2">Swift</span>
+      </div>
+
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:20px 0 12px">Trilhas (Escolha Especialização)</div>
+      <div class="mind-map-row">
+        <span class="mind-node n3">⚛️ Frontend</span>
+        <span class="mind-node n3">⚙️ Backend</span>
+        <span class="mind-node n3">📱 Mobile</span>
+        <span class="mind-node n3">☁️ Cloud/DevOps</span>
+        <span class="mind-node n3">🤖 AI/ML</span>
+        <span class="mind-node n3">🔐 Security</span>
+      </div>
+
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:20px 0 12px">Práticas de Engenharia</div>
+      <div class="mind-map-row">
+        <span class="mind-node n4">Clean Code</span>
+        <span class="mind-node n4">SOLID</span>
+        <span class="mind-node n4">Design Patterns</span>
+        <span class="mind-node n4">Testes</span>
+        <span class="mind-node n4">DDD</span>
+        <span class="mind-node n4">CI/CD</span>
+      </div>
+
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:20px 0 12px">Nível Avançado</div>
+      <div class="mind-map-row">
+        <span class="mind-node n5">System Design</span>
+        <span class="mind-node n5">Microsserviços</span>
+        <span class="mind-node n5">Distribuídos</span>
+        <span class="mind-node n5">Obs. & SRE</span>
+        <span class="mind-node n5">Segurança</span>
+      </div>
+
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:20px 0 12px">Nível Elite / Global</div>
+      <div class="mind-map-row">
+        <span class="mind-node n6">Staff Skills</span>
+        <span class="mind-node n6">Liderança Técnica</span>
+        <span class="mind-node n6">Inglês Fluente</span>
+        <span class="mind-node n6">Rede Global</span>
+        <span class="mind-node n6">Open Source</span>
+        <span class="mind-node n6">Big Tech Ready</span>
+      </div>
+    </div>
+
+    <!-- LEVEL LEGEND -->
+    <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted2)"><span class="level level-init">Iniciante</span> Meses 0-6</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted2)"><span class="level level-mid">Intermediário</span> Meses 6-18</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted2)"><span class="level level-adv">Avançado</span> Anos 1.5-3</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted2)"><span class="level level-elite">Elite/Global</span> Anos 3+</div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 19 · MENTALIDADE -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="section fade-in" id="s19">
+    <div class="section-header">
+      <span class="section-num">19</span>
+      <div class="section-title-block">
+        <div class="section-eyebrow" style="color:var(--accent1)">Mentalidade de Elite</div>
+        <h2>O que Separa Excepcionais</h2>
+        <p class="section-desc">Habilidade técnica é necessária, mas não suficiente. A mentalidade é o que multiplica tudo.</p>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-2" style="margin-bottom:24px">
+      <div class="info-block">
+        <div class="info-block-title">🧠 Como Pensam Engenheiros Excepcionais</div>
+        <ul class="checklist" style="margin-top:8px">
+          <li><strong>Primeiro principios:</strong> "Por que isso funciona?" nunca "Como eu faço isso?"</li>
+          <li><strong>Trade-offs conscientes:</strong> Não há solução perfeita. Há soluções com trade-offs diferentes.</li>
+          <li><strong>Simplicidade como virtude:</strong> A solução mais simples que funciona é geralmente a melhor.</li>
+          <li><strong>Questionar premissas:</strong> "Precisamos mesmo construir isso?" é a pergunta mais poderosa.</li>
+          <li><strong>Pense em sistemas:</strong> Cada componente tem inputs, outputs, feedback loops e falhas.</li>
+          <li><strong>Leia documentação primária:</strong> Blogs secundários ficam desatualizados. Docs oficiais não.</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <div class="info-block-title">⚠️ Erros que Atrasam Carreiras</div>
+        <ul class="checklist" style="margin-top:8px">
+          <li><strong>Tutorial hell:</strong> consumir infinitos tutoriais sem construir nada próprio</li>
+          <li><strong>Saltar fundamentos:</strong> aprender React sem entender JavaScript primeiro</li>
+          <li><strong>Colecionador de tecnologias:</strong> aprende 10 coisas superficialmente, domina zero</li>
+          <li><strong>Código sem contexto:</strong> copiar sem entender. A IA piora esse hábito.</li>
+          <li><strong>Não construir em público:</strong> GitHub vazio = sem evidências do crescimento</li>
+          <li><strong>Isolamento:</strong> nunca pedir ajuda, nunca participar de comunidades</li>
+          <li><strong>Perfecionismo paralizante:</strong> esperar estar "pronto" para aplicar/publicar</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cards-grid cols-3">
+      <div class="card accent-cyan">
+        <div class="card-icon">🏋️</div>
+        <div class="card-title">Hábitos que Aceleram</div>
+        <ul class="checklist" style="margin-top:10px;font-size:12px">
+          <li>Commitar código todo dia, mesmo que pouco</li>
+          <li>Ler um artigo técnico profundo por semana</li>
+          <li>Ensinar: escrever, explicar, mentorear</li>
+          <li>Trabalhar em projetos reais, não tutoriais</li>
+          <li>Inglês diário: 30 min de conteúdo técnico</li>
+          <li>Revisão semanal do que aprendeu</li>
+        </ul>
+      </div>
+      <div class="card accent-purple">
+        <div class="card-icon">🔭</div>
+        <div class="card-title">Profundidade Técnica</div>
+        <ul class="checklist" style="margin-top:10px;font-size:12px">
+          <li>Para cada ferramenta: leia o código-fonte</li>
+          <li>Entenda o porquê antes do como</li>
+          <li>Refaça projetos sem tutorial depois</li>
+          <li>Escreva suas implementações de algo antes de usar lib</li>
+          <li>Leia papers e RFCs das tecnologias que usa</li>
+          <li>Contribua com documentação e OSS</li>
+        </ul>
+      </div>
+      <div class="card accent-amber">
+        <div class="card-icon">💎</div>
+        <div class="card-title">Difícil de Substituir</div>
+        <ul class="checklist" style="margin-top:10px;font-size:12px">
+          <li>Domínio profundo, não amplo e raso</li>
+          <li>Comunicação técnica excepcional</li>
+          <li>Capacidade de navegar ambiguidade</li>
+          <li>Entender o negócio além do código</li>
+          <li>Construir confiança e relacionamentos</li>
+          <li>Ser a pessoa que resolve, não escalona</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quote-block" style="margin-top:24px;font-size:16px">
+      "A engenheira de software excepcional não é aquela que sabe mais frameworks. É aquela que entende profundamente sistemas, comunica com clareza, resolve problemas ambíguos e faz todos ao redor melhores."
+    </div>
+
+    <!-- FINAL CTA -->
+    <div style="margin-top:40px;padding:32px;background:linear-gradient(135deg,rgba(0,212,255,0.08),rgba(124,58,237,0.08));border:1px solid rgba(0,212,255,0.15);border-radius:16px;text-align:center">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent1);margin-bottom:16px">Seu próximo passo</div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:12px">Comece hoje. Não amanhã.</h3>
+      <p style="color:var(--muted2);font-size:14px;max-width:500px;margin:0 auto">O melhor roadmap do mundo não vale nada sem execução. Abra o editor, escreva a primeira linha, faça o primeiro commit. A jornada começa com um único passo.</p>
+      <div style="margin-top:20px;font-family:'DM Mono',monospace;font-size:12px;color:var(--accent1)">→ Abra o VS Code → Escreva "Hello, World" → git commit -m "start" →</div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // TAB SWITCHING
+  function switchTab(e, id) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    e.target.classList.add('active');
+    document.getElementById(id).classList.add('active');
+  }
+
+  // SCROLL FADE IN
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // ACTIVE NAV HIGHLIGHT
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.style.color = link.getAttribute('href') === `#${id}` ? 'white' : '';
+          if (link.getAttribute('href') === `#${id}`) {
+            link.style.borderLeftColor = 'var(--accent1)';
+            link.style.background = 'rgba(255,255,255,0.04)';
+          } else {
+            link.style.borderLeftColor = '';
+            link.style.background = '';
+          }
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => navObserver.observe(s));
+</script>
+</body>
+</html>
